@@ -24,7 +24,9 @@
             </form>
         </div>
         <div>
-            {{printf "%s" .Task}}
+            {{range .}}
+                <li>{{.Task}}</li>
+            {{end}}
         </div>
         <div id="like_button_container"></div>
         <script src="static/index.js"></script>
