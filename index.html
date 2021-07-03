@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <link rel="stylesheet" href="static/index.css">
         <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
     </head>
@@ -23,9 +24,13 @@
                 <input type="submit" value="send">
             </form>
         </div>
-        <div>
+        <div class="contents_wrap">
             {{range .}}
-                <li>{{.Task}}</li>
+                <div class="contents">
+                {{.Task}}<br>
+                {{.Date}}<br>
+                {{.Deadline}}<br>
+                </div>
             {{end}}
         </div>
         <div id="like_button_container"></div>

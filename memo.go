@@ -1,29 +1,20 @@
-// +build ignore
 package main
 
 import (
 	"net/http"
 	"html/template"
 	"log"
-	// "database/sql"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
-	// "github.com/gorilla/securecookie"
 	"example.com/memog/utils"
 )
 
-type Todo struct {
-	Task string
-	Date string
-	Deadline string
-}
 
 // var todolist = []Todo
 
 var templates = template.Must(template.ParseFiles("index.html", "login.html"))
 
 func login_check(w http.ResponseWriter, r *http.Request){
-	userName := utils.GetUserName(r)
+	userName, _ := utils.GetUser(r)
 	if userName == "" {
 		http.Redirect(w, r, "/login", http.StatusFound)
 	}
@@ -31,11 +22,10 @@ func login_check(w http.ResponseWriter, r *http.Request){
 
 func index(w http.ResponseWriter, r *http.Request){
 	login_check(w, r)
-	//
+	_, user_id := utils.GetUser(r)
 	// read database
-	//
-	var todo = Todo{"todo", "date", "deal"}
-	var todolist = []Todo{todo}
+	todolist := utils.ReadDB(user_id)
+
 	err := templates.ExecuteTemplate(w, "index.html", todolist)
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -43,13 +33,20 @@ func index(w http.ResponseWriter, r *http.Request){
 }
 
 func save(w http.ResponseWriter, r *http.Request){
-	var todo = Todo{}
+	login_check(w, r)
+
+	// insert form values into structure
+	var todo = utils.Todo{}
 	todo.Task = r.FormValue("task")
 	todo.Date = r.FormValue("date")
 	todo.Deadline = r.FormValue("deadline")
-	//
+	_, todo.User = utils.GetUser(r)
+
 	// save database
-	//
+	err := utils.InsertDB(todo)
+	if err == 1{
+		log.Fatal("error")
+	}
 
 	http.Redirect(w, r, "/", http.StatusFound)
 }

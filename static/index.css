@@ -1,0 +1,9 @@
+.contents{
+    font-size: 24px;
+    width: 25%;
+    background-color: darkgrey;
+}
+.contents_wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
