@@ -108,7 +108,6 @@ func ReadDB(user_id int) []Todo{
 		}
 		todolist = append(todolist, todo)
 	}
-	log.Print(todolist)
 
 	err = row.Err()
 	if err != nil{
@@ -140,3 +139,24 @@ func InsertDB(todo Todo) int{
 	return 0	
 }
 
+func UpdateDB(todo Todo) int{
+	db := connect()
+	if db == nil{
+		return 1
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("update todo set task = ?, date = ?, deadline = ? where id = ?")
+	if err != nil{
+		log.Fatal(err)
+		return 1
+	}
+	
+	_, err = stmt.Exec(todo.Task, todo.Date, todo.Deadline, todo.Id)
+	if err != nil{
+		log.Fatal(err)
+		return 1
+	}
+
+	return 0
+}

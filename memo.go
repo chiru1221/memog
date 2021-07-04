@@ -4,12 +4,10 @@ import (
 	"net/http"
 	"html/template"
 	"log"
+	"strconv"
 	"github.com/gorilla/mux"
 	"example.com/memog/utils"
 )
-
-
-// var todolist = []Todo
 
 var templates = template.Must(template.ParseFiles("index.html", "login.html"))
 
@@ -41,9 +39,17 @@ func save(w http.ResponseWriter, r *http.Request){
 	todo.Date = r.FormValue("date")
 	todo.Deadline = r.FormValue("deadline")
 	_, todo.User = utils.GetUser(r)
+	
+	var err int
+	if (r.FormValue("id") != "") {
+		todo.Id, _ = strconv.Atoi(r.FormValue("id"))
+		// update database
+		err = utils.UpdateDB(todo)
+	}else{
+		// insert database
+		err = utils.InsertDB(todo)
+	}
 
-	// save database
-	err := utils.InsertDB(todo)
 	if err == 1{
 		log.Fatal("error")
 	}
