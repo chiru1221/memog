@@ -18,7 +18,17 @@ body {
     letter-spacing: 2px;
     font-weight: bold;
     color: #ECF0F5;
+    display: inline-block;
 }
+
+#singin {
+    color: #ECF0F5;
+}
+
+#singup {
+    color: #6C6C6C;
+}
+
 
 .login-form {
     margin-top: 25px;
@@ -105,8 +115,6 @@ label {
 .loginbttm {
     margin-bottom: 50px;
 }
-
-
 
 .login-text {
     text-align: left;

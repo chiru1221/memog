@@ -4,12 +4,20 @@ import (
 	"github.com/gorilla/securecookie"
 	"net/http"
 	"strconv"
+	"crypto/sha1"
 )
 
 // cookie handling
 var cookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
+
+func hash_passwd(plain string) ([]byte){
+	hashed := sha1.New()
+	hashed.Write([]byte(plain))
+	byte_str := hashed.Sum(nil)
+	return byte_str
+}
 
 func GetUser(request *http.Request) (userName string, userId int) {
 	if cookie, err := request.Cookie("session"); err == nil {
@@ -53,13 +61,37 @@ func LoginHandler(response http.ResponseWriter, request *http.Request) {
 	passwd := request.FormValue("password")
 	redirectTarget := "/login"
 	if name != "" && passwd != "" {
+		// .. hash passwd ..
+		hashed_passwd := hash_passwd(passwd)
 		// .. check credentials ..
-		user_id := ReadUserId(name, passwd)
+		user_id := ReadUserId(name, hashed_passwd)
 		// match name or password
 		if user_id != 0{
 			setSession(name, user_id, response)
 			redirectTarget = "/"
 		}	
+	}
+	http.Redirect(response, request, redirectTarget, 302)
+}
+
+func RegistHandler(response http.ResponseWriter, request *http.Request) {
+	name := request.FormValue("name")
+	passwd := request.FormValue("password")
+	redirectTarget := "/login"
+	if name != "" && passwd != "" {
+		// .. hash passwd ..
+		hashed_passwd := hash_passwd(passwd)
+		// .. check duplication user name ..
+		err := InsertUserId(name, hashed_passwd)
+		if err == 1{
+			redirectTarget = "/login"
+		}else{
+			user_id := ReadUserId(name, hashed_passwd)
+			if user_id != 0{
+				setSession(name, user_id, response)
+				redirectTarget = "/"
+			}
+		}
 	}
 	http.Redirect(response, request, redirectTarget, 302)
 }
@@ -70,14 +102,3 @@ func LogoutHandler(response http.ResponseWriter, request *http.Request) {
 	http.Redirect(response, request, "/login", 302)
 }
 
-
-// internal page
-
-// const internalPage = `
-// <h1>Internal</h1>
-// <hr>
-// <small>User: %s</small>
-// <form method="post" action="/logout">
-//     <button type="submit">Logout</button>
-// </form>
-// `

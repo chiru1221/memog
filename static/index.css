@@ -5,7 +5,8 @@ body {
 
 .contents{
     font-size: 24px;
-    width: 20%;
+    width: 335px;
+    height: 225px;
     background: #1A2226;
     color: white;
     border: 1px solid #0DB8DE;
@@ -14,6 +15,8 @@ body {
     margin: 1% 1%;
     text-align: center;
     position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 .contents:hover{
     background-color: #0DB8DE;
@@ -31,9 +34,12 @@ body {
 }
 
 .contents_wrap{
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
     z-index: 1;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .contents_close{
@@ -48,7 +54,8 @@ body {
 }
 
 .contents_close:hover{
-    color: #0DB8DE;
+    color: white;
+    background-color: #1A2226;
 }
 
 #add_modal {
@@ -77,17 +84,21 @@ body {
 }
 
 #add_task {
-    font-size: 90px;
-    width: 20%;
+    font-size: 96px;
+    width: 335px;
+    height: 225px;
     background: white;
     color: #0DB8DE;
-    border-color: #0DB8DE;
-    border-width: 0px;
+    border: 1px solid #0DB8DE;
     border-radius: 50%;
-    padding: 5% 1%;
+    padding: 1% 1%;
     margin: 1% 1%;
-    text-align: center; 
+    text-align: center;
+    position: relative;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    line-height: 225px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #add_task:hover{

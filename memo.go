@@ -67,18 +67,15 @@ func login(w http.ResponseWriter, r *http.Request){
 var router = mux.NewRouter()
 
 func main() {
-
-	router.HandleFunc("/", index)
+	router.HandleFunc("/", index)	
 	router.HandleFunc("/save", save)
 
 	router.HandleFunc("/login", login)
 	router.HandleFunc("/login_internal", utils.LoginHandler).Methods("POST")
 	router.HandleFunc("/logout", utils.LogoutHandler).Methods("POST")
+	router.HandleFunc("/regist", utils.RegistHandler).Methods("POST")
 
 	http.Handle("/", router)
-	
-	// http.HandleFunc("/", index)
-	// http.HandleFunc("/save", save)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

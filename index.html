@@ -5,10 +5,10 @@
         <link rel="stylesheet" href="static/index.css">
     </head>
     <body>
-        <div id='add_modal' style="display: none">
+        <div id="add_modal" style="display: none;">
             <div class='modal_content'>
                 <form action="/save" method="post">
-                    <input type="hidden" name="id" id="task_id">
+                    <input type="hidden" name="id" class="task_id">
                     task
                     <br>
                     <input type="text" name="task">
@@ -21,11 +21,16 @@
                     <br>
                     <input type="text" name="deadline">
                     <br>
-                    <input type="submit" value="send" class="modal_close">
+                    <input type="submit" value="send" class="add_modal_close">
                 </form>
-                <input type="button" class="modal_close" value="Close">
+                <input type="button" class="add_modal_close" value="Close">
             </div>
         </div>
+
+        <div id="delete_modal" style="display: none;">
+            <input type="hidden" name="id" class="task_id">
+        </div>
+        
         <div class="contents_wrap">
             {{range .}}
                 <div class="contents" id="contents_{{.Id}}">
@@ -38,8 +43,10 @@
                     <div class="contents_close">X</div>
                 </div>                
             {{end}}
+            <div id="add_task">
+                +
+            </div>
         </div>
-        <input type="button" id="add_task" value='+'>
 
 
         <script src="static/index.js"></script>

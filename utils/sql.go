@@ -3,7 +3,7 @@ package utils
 import (
 	"database/sql"
 	"log"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 )
 
 type Todo struct {
@@ -37,7 +37,7 @@ func connect() *sql.DB{
 	return db
 }
 
-func ReadUserId(name string, passwd string) int{
+func ReadUserId(name string, passwd []byte) int{
 	var user_id int = 0
 
 	db := connect()
@@ -74,6 +74,34 @@ func ReadUserId(name string, passwd string) int{
 	}
 
 	return user_id
+}
+
+func InsertUserId(name string, passwd []byte) int{
+	db := connect()
+	if db == nil{
+		return 1
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("insert into user values(?,?,?)")
+	if err != nil{
+		log.Fatal(err)
+		return 1
+	}
+
+	_, err = stmt.Exec(nil, name, passwd)
+	if err != nil{
+		// unique error
+		if sql_err, ok := err.(*mysql.MySQLError); ok{
+			if sql_err.Number == 1062{
+				return 1
+			}
+		}
+		log.Fatal(err)
+		return 1
+	}
+
+	return 0
 }
 
 func ReadDB(user_id int) []Todo{
