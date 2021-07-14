@@ -11,6 +11,11 @@ services:
         ports:
             - "5000:8080"
         tty: true
+        working_dir: $PWD
+        # entrypoint:
+        #     - go
+        #     - run
+        #     - memo.go
 
     db:
         build:
