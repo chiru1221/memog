@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    web:
+        build:
+            context: .
+            dockerfile: ./docker/go_dockerfile
+        container_name: memog_go
+        volumes:
+            - $PWD:$PWD
+        ports:
+            - "5000:8080"
+        tty: true
+
+    db:
+        build:
+            context: .
+            dockerfile: ./docker/mysql_dockerfile
+        container_name: memog_mysql
+        volumes:
+            - $PWD:$PWD
+            - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+            - ./mysql/conf.d:/etc/mysql/conf.d
+        environment:
+            MYSQL_DATABASE: test
+            MYSQL_ROOT_PASSWORD: mysql
+            MYSQL_USER: chiru1221
+            MYSQL_PASSWORD: mysql
+            BIND-ADDRESS: 0.0.0.0
+        ports:
+            - "3306:3306"
+        restart: always
+
+networks:
+    default:
+        name: memog_net
