@@ -1,3 +1,5 @@
 FROM golang
+ARG path
 RUN useradd -u 1000 chiru1221
 USER chiru1221
+WORKDIR $path
