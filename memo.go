@@ -51,10 +51,25 @@ func save(w http.ResponseWriter, r *http.Request){
 	}
 
 	if err == 1{
-		log.Fatal("error")
+		log.Fatal("insert or update db error")
 	}
 
 	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func delete(w http.ResponseWriter, r *http.Request){
+	login_check(w, r)
+
+	var todo = utils.Todo{}
+	todo.Id, _ = strconv.Atoi(r.FormValue("id"))
+	
+	err := utils.DeleteDB(todo)
+	if err == 1{
+		log.Fatal("delete db error")
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+
 }
 
 func login(w http.ResponseWriter, r *http.Request){
@@ -68,7 +83,8 @@ var router = mux.NewRouter()
 
 func main() {
 	router.HandleFunc("/", index)	
-	router.HandleFunc("/save", save)
+	router.HandleFunc("/save", save).Methods("POST")
+	router.HandleFunc("/delete", delete).Methods("POST")
 
 	router.HandleFunc("/login", login)
 	router.HandleFunc("/login_internal", utils.LoginHandler).Methods("POST")

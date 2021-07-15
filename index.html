@@ -5,30 +5,37 @@
         <link rel="stylesheet" href="static/index.css">
     </head>
     <body>
-        <div id="add_modal" style="display: none;">
+        <div id="add_modal" class="modal" style="display: none;">
             <div class='modal_content'>
                 <form action="/save" method="post">
                     <input type="hidden" name="id" class="task_id">
-                    task
-                    <br>
-                    <input type="text" name="task">
-                    <br>
-                    date
-                    <br>
-                    <input type="text" name="date">
-                    <br>
-                    deadline
-                    <br>
-                    <input type="text" name="deadline">
-                    <br>
-                    <input type="submit" value="send" class="add_modal_close">
+                    <div class="form-group">
+                        <label class="form-control-label">task</label>
+                        <input type="text" name="task" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">date</label>
+                        <input type="text" name="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">deadline</label>
+                        <input type="text" name="deadline" class="form-control">
+                    </div>
+                    <button type="submit" class="add_modal_close">OK</button>
                 </form>
-                <input type="button" class="add_modal_close" value="Close">
+                <!-- <button class="add_modal_close">Close</button> -->
             </div>
         </div>
 
-        <div id="delete_modal" style="display: none;">
-            <input type="hidden" name="id" class="task_id">
+        <div id="del_modal" class="modal" style="display: none;">
+            <div class="modal_content">
+                <div class="confirm_text">Are you sure?</div>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="id" class="task_id">
+                    <button type="submit" class="del_modal_close">Yes</button>
+                    <button type="button" class="del_modal_close">No</button>
+                </form>
+            </div>
         </div>
         
         <div class="contents_wrap">
@@ -40,8 +47,8 @@
                     {{.Date}}<br>
                     <div class="contents_title">Deadline</div>
                     {{.Deadline}}<br>
-                    <div class="contents_close">X</div>
-                </div>                
+                    <div class="contents_del" id="contents_del_{{.Id}}">X</div>
+                </div>
             {{end}}
             <div id="add_task">
                 +

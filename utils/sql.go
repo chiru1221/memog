@@ -188,3 +188,25 @@ func UpdateDB(todo Todo) int{
 
 	return 0
 }
+
+func DeleteDB(todo Todo) int{
+	db := connect()
+	if db == nil{
+		return 1
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("delete from todo where id = ?")
+	if err != nil{
+		log.Fatal(err)
+		return 1
+	}
+	
+	_, err = stmt.Exec(todo.Id)
+	if err != nil{
+		log.Fatal(err)
+		return 1
+	}
+
+	return 0
+}
