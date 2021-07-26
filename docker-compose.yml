@@ -13,6 +13,8 @@ services:
         ports:
             - "5000:8080"
         tty: true
+        environment:
+            XDG_CACHE_HOME: tmp/.cache
         # working_dir: $PWD
         entrypoint:
             - go
