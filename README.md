@@ -5,8 +5,8 @@ simple web application to memo
 learn golang and AWS  
 
 ## branch  
-v0: running on local  
-v1: running on AWS EC2  
+[v0: running on local](https://github.com/chiru1221/memog/tree/v0)  
+[v1: running on AWS EC2](https://github.com/chiru1221/memog/tree/v1)  
 
 ## login page  
 ![login](https://github.com/chiru1221/memog/blob/main/figure/login.jpg?raw=true)
