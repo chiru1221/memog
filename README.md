@@ -1,5 +1,12 @@
 # memog  
-simple web application to memo
+simple web application to memo  
+
+## Purpose  
+learn golang and AWS  
+
+## branch  
+v0: running on local  
+v1: running on AWS EC2  
 
 ## login page  
 ![login](https://github.com/chiru1221/memog/blob/main/figure/login.jpg?raw=true)
