@@ -2,7 +2,7 @@
 simple web application to memo  
 
 ## Purpose  
-learn golang and AWS  
+learn golang(server) and AWS  
 
 ## branch  
 [v0: running on local](https://github.com/chiru1221/memog/tree/v0)  
